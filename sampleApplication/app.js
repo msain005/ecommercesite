@@ -3,12 +3,38 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var layouts = require('express-ejs-layouts');
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+	host: 'localhost',
+	user: 'samuser', 
+	password: 'plepassd',
+	database: 'sampledb'});
+
+// connect to database
+db.connect((err) => {
+  if (err) 
+  {
+	console.log("Unable to connect to database due to error: " + err);
+	res.render('error');
+  } 
+  else
+  {
+	console.log("Connected to DB");
+  }
+});
+global.db = db;
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
 var contactRouter = require('./routes/contact');
+var customerRouter = require('./routes/customer');
+
 var app = express();
+app.use(layouts);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +50,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/about', aboutRouter);
 app.use('/contact', contactRouter);
+app.use('/customer', customerRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

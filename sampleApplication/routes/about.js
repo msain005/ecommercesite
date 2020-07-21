@@ -6,7 +6,7 @@ var router = express.Router();
 // ##################################
 router.get('/', function(req, res, next) 
 {
-	res.render('about', {currenttime: Date.now() } );	// displaying the contents of the about view
+	res.render('about');	// displaying the contents of the about view
 });
 
 module.exports = router;	// make application recognize handler

@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-	<p>First express application by Misbah </p>
-	
-	<a href="/about">About Us</a>
-	<a href="/contact">Contact Us</a>
-	
-  </body>
-</html>
+<p>Welcome to My Sample Application</p>
+
+<p> Book List is: <%= passeddata %> </p>
+
+<hr>
+
+<% passeddata.forEach((book, index) => { %>
+	<p> Book Number: <%= index %> </br>
+		Book Title: <%= book.title %> </br>
+		Book Author: <%= book.author %> </br>
+		Published At: <%= book.publishedAt %> 
+	</p>
+
+<% }); %> 
