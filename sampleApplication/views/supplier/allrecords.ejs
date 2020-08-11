@@ -1,0 +1,29 @@
+<% if (allrecs.length > 0) {%>
+    <table>
+        <tr>
+            <th>Supplier ID</th>
+            <th>Company Name</th>
+            <th>Point of Contact</th>
+            <th>Website</th>
+            <th>Phone</th>
+        </tr>
+
+        <% allrecs.forEach((recref, index) => { %>
+        <tr>
+            <td><%= recref.supplier_id%></td>
+            <td><%= recref.companyname%></td>
+            <td><%= recref.pointofcontact%></td>
+            <td><%= recref.website %></td>
+            <td><%= recref.phone %></td>
+            <td><a href='/supplier/<%= recref.supplier_id%>/show'> Details</a></td>
+            <td><a href='/supplier/<%= recref.supplier_id%>/edit'>Edit</a></td>
+            <td><a href='/supplier/<%= recref.supplier_id%>/delete' 
+                onclick="return confirm('Are you sure you want to delete this record?');"> 
+                Delete</a></td>
+        </tr>
+        <% }); %>
+    </table>
+<% } else { %>
+    <p>No Records Available</p>
+<% } %>
+<p> <a href='/supplier/addrecord'>Add New</a> </p>

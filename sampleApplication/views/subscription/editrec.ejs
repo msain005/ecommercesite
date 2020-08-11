@@ -1,0 +1,18 @@
+<h1>Modify Subscription Detail</h1>
+
+<form action="/subscription/save" method="post">
+
+<input type="hidden" name="subscription_id" value="<%= onerec.subscription_id %>" >
+
+<table>
+
+    <tr><td> Customer ID: </td> <td> <input type="number" name="customer_id"  value="<%= onerec.customer_id%>" required> </td></tr>
+    <tr><td> Category ID: </td> <td> <input type="number" name="category_id" value="<%= onerec.category_id%>" required> </td></tr>
+    <tr><td> Subscribe Date: </td> <td> <input type="date" name="subscribedate" value=<%= rec.subscribedate.toISOString().split('T')[0] %> required> </td></tr>
+    <tr><td> Unsubscribe Date: </td> <td> <input type="date" name="unsubscribedate" value=<%= rec.unsubscribedate.toISOString().split('T')[0] %> required> </td></tr>
+
+</table>
+
+<button type="submit">Save</button>
+
+</form>

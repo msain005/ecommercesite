@@ -1,0 +1,18 @@
+<h1>Modify Supplier</h1>
+
+<form action="/supplier/save" method="post">
+
+<input type="hidden" name="supplier_id" value="<%= onerec.supplier_id %>" > 
+
+<table>
+
+    <tr><td> Company Name: </td> <td> <input type="text" name="companyname" value="<%= onerec.companyname %>" required> </td></tr>
+    <tr><td> Point of Contact: </td> <td> <input type="text" name="pointofcontact" value="<%= onerec.pointofcontact%>" required> </td></tr>
+    <tr><td> Website: </td> <td> <input type="text" name="website" value="<%= onerec.website %>" required> </td></tr>
+    <tr><td> Phone: </td> <td> <input type="text" value="<%= onerec.phone %>" name="phone"> </td></tr>
+	
+</table>
+
+<button type="submit">Save</button>
+
+</form>

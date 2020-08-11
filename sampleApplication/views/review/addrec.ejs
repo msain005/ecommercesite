@@ -1,0 +1,25 @@
+<h1>Adding Review Record</h1>
+
+<form action="/review" method="post">
+
+<table>
+
+    <tr><td> Customer ID: </td> <td> <input type="number" name="customer_id" required> </td></tr>
+    <tr><td> Product ID: </td> <td> <input type="number" name="product_id" required> </td></tr>
+    <tr><td> Review Date: </td> <td> <input type="date" name="reviewdate" required> </td></tr>
+	<tr><td> Comments: </td> <td> <textarea name="comments" rows="10" cols="30">Any Special Notes </textarea>  </td></tr>
+    <tr><td> Rating: </td> 
+	<td> 
+		<input type="radio" name="rating" value="1">★ <br/> 
+		<input type="radio" name="rating" value="2">★★ <br/>
+		<input type="radio" name="rating" value="3">★★★ <br/>
+		<input type="radio" name="rating" value="4">★★★★ <br/>
+		<input type="radio" name="rating" value="5" checked="true" >★★★★★<br/>
+	</td></tr>
+	<tr><td> Status: </td> <td> <input type="text" name="status" required> </td></tr>
+
+</table>
+
+<button type="submit">Save</button>
+
+</form>

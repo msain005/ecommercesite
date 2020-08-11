@@ -1,0 +1,21 @@
+<h1>Adding Product Record</h1>
+
+<form action="/Product" method="post">
+
+<table>
+    <tr><td> Product Name: </td> <td> <input type="text" name="productname" required> </td></tr>
+    <tr><td> Product Image: </td> <td> <input type="text" name="productimage" required> </td></tr>
+	<tr><td> Description: </td> <td> <textarea name="description" rows="10" cols="30">Any Special Notes </textarea>  </td></tr>
+    <tr><td> Category ID: </td> <td> <input type="number" name="category_id" required> </td></tr>
+    <tr><td> Supplier ID: </td> <td> <input type="number" name="supplier_id" required> </td></tr>
+    <tr><td> Sub-Category 1: </td> <td> <input type="text" name="subcategory_1" required> </td></tr>
+    <tr><td> Sub-Category 2: </td> <td> <input type="text" name="subcategory_2"> </td></tr>
+    <tr><td> Sale Price: </td> <td> <input type="text" name="saleprice" required> </td></tr>
+    <tr><td> Status: </td> <td> <input type="text" name="status" required> </td></tr>
+	<tr> <td> Home Page: </td> <td> <input type="checkbox", name="homepage"> </td> </tr>
+	
+</table>
+
+<button type="submit">Save</button>
+
+</form>

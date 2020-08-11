@@ -1,0 +1,25 @@
+<h1>Search Results</h1>
+<% if (allrecs.length > 0) {%>
+	<table border=1>
+		<tr>
+			<th>Product ID</th>
+			<th>Product Name</th>
+			<th>Image</th>
+			<th>Category</th>
+			<th>Supplier</th>
+			</tr>
+      	<% allrecs.forEach((recref, index) => { %>
+		<tr>
+			<td><%= recref.product_id %></td>
+			<td><%= recref.productname %></td>
+			<td><img src="/images/<%= recref.productimage %>"></td>
+			<td><%= recref.category_id %></td>
+			<td><%= recref.supplier_id %></td>
+			<td><a href='/product/<%= recref.product_id %>/show'> Details</a></td>
+                </tr>
+        <% }); %>
+	</table>
+
+<% } else { %>
+            <p>No results from search...try something else..</p>
+<% } %>

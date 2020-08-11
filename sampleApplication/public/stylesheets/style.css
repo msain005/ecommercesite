@@ -51,7 +51,7 @@ li a.active {
     background-color: #4CAF50;
 }
 
-button1 {
+.button1 {
     background-color: #008CBA;
     font-size: 10px;
     border-radius: 4px;
@@ -60,6 +60,7 @@ button1 {
     transition-duration: 0.4s;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
+
 product {
     margin: 5px;
     border: 2px solid #ccc;

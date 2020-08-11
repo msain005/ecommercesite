@@ -1,0 +1,28 @@
+<h1>Modify Product</h1>
+
+<form action="/product/save" method="post">
+
+<input type="hidden" name="product_id" value="<%= onerec.product_id %>" >
+
+<table>
+    <tr><td> Product Name: </td> <td> <input type="text" name="productname" value="<%= onerec.productname %>" required> </td></tr>
+    <tr><td> Product Image: </td> <td> <input type="text" name="productimage"  value="<%= onerec.productimage%>" required> </td></tr>
+	<tr><td> Description: </td> <td> <textarea name="description" rows="10" cols="30"> <%= onerec.description%></textarea>  </td></tr>
+    <tr><td> Category ID: </td> <td> <input type="text" name="category_id" value="<%= onerec.category_id%>" required> </td></tr>
+    <tr><td> Supplier ID: </td> <td> <input type="text" name="supplier_id" value="<%= onerec.supplier_id%>" required> </td></tr>
+    <tr><td> Sub-Category 1: </td> <td> <input type="text" name="subcategory_1" value="<%= onerec.subcategory_1 %>" required> </td></tr>
+    <tr><td> Sub-Category 2: </td> <td> <input type="text" value="<%= onerec.subcategory_2 %>" name="subcategory_2"> </td></tr>
+    <tr><td> Sale Price: </td> <td> <input type="text" name="saleprice" value="<%= onerec.saleprice%>" required> </td></tr>
+    <tr><td> Status: </td> <td> <input type="text" name="status" value="<%= onerec.status%>" required> </td></tr>
+	
+	<% if (onerec.homepage == 1) { %> 
+		<tr> <td> Home Page Display: </td> <td> <input type="checkbox", name="homepage", checked="true", value="true" > </td> </tr>
+	<% } else  { %>
+		<tr> <td> Home Page Display: </td> <td> <input type="checkbox", name="homepage", value="false" > </td> </tr>
+	<% } %>
+
+</table>
+
+<button type="submit">Save</button>
+
+</form>

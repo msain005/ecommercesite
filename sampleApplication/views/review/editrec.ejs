@@ -1,0 +1,51 @@
+<h1>Modify Review</h1>
+
+<form action="/review/save" method="post">
+
+<input type="hidden" name="review_id" value="<%= onerec.review_id %>" >
+
+<table>
+
+    <tr><td> Customer ID: </td> <td> <input type="number" name="customer_id"  value="<%= onerec.customer_id%>" required> </td></tr>
+    <tr><td> Product ID: </td> <td> <input type="number" name="product_id" value="<%= onerec.product_id%>" required> </td></tr>
+    <tr><td> Review Date: </td> <td> <input type="date" name="reviewdate" value=<%= rec.reviewdate.toISOString().split('T')[0] %> required> </td></tr>
+	<tr><td> Comments: </td> <td> <textarea name="comments" rows="10" cols="30"> <%= onerec.comments%></textarea>  </td></tr>
+	<tr><td> Rating: </td> 
+	<td> 
+		<% if (rec.rating == 1) { %>
+			<input type="radio" name="rating" value="1" checked="true">★ <br/> 
+		<% } else { %>
+			<input type="radio" name="rating" value="1">★ <br/> 
+		<% }%>
+
+		<% if (rec.rating == 2) { %>
+			<input type="radio" name="rating" value="2" checked="true">★★<br/> 
+		<% } else { %>
+			<input type="radio" name="rating" value="2">★★<br/> 
+		<% }%>
+
+		<% if (rec.rating == 3) { %>
+			<input type="radio" name="rating" value="3" checked="true">★★★<br/> 
+		<% } else { %>
+			<input type="radio" name="rating" value="3">★★★<br/> 
+		<% }%>
+
+		<% if (rec.rating == 4) { %>
+			<input type="radio" name="rating" value="4" checked="true">★★★★<br/> 
+		<% } else { %>
+			<input type="radio" name="rating" value="4">★★★★<br/> 
+		<% }%>
+
+		<% if (rec.rating == 5) { %>
+			<input type="radio" name="rating" value="5" checked="true">★★★★★<br/> 
+		<% } else { %>
+			<input type="radio" name="rating" value="5">★★★★★<br/> 
+		<% }%>
+	</td></tr>
+    <tr><td> Status: </td> <td> <input type="text" name="status" value="<%= onerec.status%>" required> </td></tr>
+
+</table>
+
+<button type="submit">Save</button>
+
+</form>

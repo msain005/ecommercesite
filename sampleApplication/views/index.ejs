@@ -1,14 +1,26 @@
 <p>Welcome to My Sample Application</p>
 
-<p> Book List is: <%= passeddata %> </p>
+<% if (allrecs.length > 0) {%>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Product Image</th>
+            <th>Sale Price</th>
+            <th>Status</th>
+			<th>Homepage</th>
+        </tr>
 
-<hr>
-
-<% passeddata.forEach((book, index) => { %>
-	<p> Book Number: <%= index %> </br>
-		Book Title: <%= book.title %> </br>
-		Book Author: <%= book.author %> </br>
-		Published At: <%= book.publishedAt %> 
-	</p>
-
-<% }); %> 
+        <% allrecs.forEach((recref, index) => { %>
+        <tr>
+            <td><%= recref.product_id%></td>
+            <td><%= recref.productname%></td>
+            <td><%= recref.productimage%></td>
+            <td><%= recref.saleprice %></td>
+            <td><%= recref.status %></td>
+        </tr>
+        <% }); %>
+    </table>
+<% } else { %>
+    <p>No Records Available</p>
+<% } %>
