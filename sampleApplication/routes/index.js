@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 			console.log(err);
 			res.render('error');
 		}
-	res.render('index', {allrecs: result });
+	res.render('index', {products: result });
 	});
 
 });

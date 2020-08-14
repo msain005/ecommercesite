@@ -1,25 +1,30 @@
 <h1>Search Results</h1>
-<% if (allrecs.length > 0) {%>
-	<table border=1>
-		<tr>
-			<th>Product ID</th>
-			<th>Product Name</th>
-			<th>Image</th>
-			<th>Category</th>
-			<th>Supplier</th>
-			</tr>
-      	<% allrecs.forEach((recref, index) => { %>
-		<tr>
-			<td><%= recref.product_id %></td>
-			<td><%= recref.productname %></td>
-			<td><img src="/images/<%= recref.productimage %>"></td>
-			<td><%= recref.category_id %></td>
-			<td><%= recref.supplier_id %></td>
-			<td><a href='/product/<%= recref.product_id %>/show'> Details</a></td>
-                </tr>
-        <% }); %>
-	</table>
-
+<% if (products.length > 0) {%>
+	<% products.forEach((recref, index) => { %>
+		<product>
+		<form action="/catalog/add" method="post" >
+			<input type="hidden" name="product_id" value=<%= recref.product_id %> > 
+			<table> 
+				<tr>
+					<td><b><a href='/product/<%= recref.product_id %>/show'><%= recref.productname %></a></b></td>
+					<td><%= recref.saleprice %></td>
+				</tr>
+				<tr>
+					<td align="center"><a href='/product/<%= recref.product_id %>/show'><img src="/images/<%= recref.productimage %>" height=100 width=100></a></td>
+				</tr>
+				<tr>
+					<td><%= recref.description %></td>
+				</tr>
+				<tr>
+					<td> <%= recref.status %> </td>
+					<td> Quantity: <input type="text" name="qty" size=2 required> </td>
+				</tr>
+			</table>
+			<button type="submit" class="button1">Add to Cart</button>
+		</form>
+		</product>
+	<% }); %>
+	
 <% } else { %>
             <p>No results from search...try something else..</p>
 <% } %>

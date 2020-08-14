@@ -15,14 +15,14 @@
       		<% cartitems.forEach((item, index) => { %>
 			<tr>
 				<td><%= item.productname%></td>
-				<td><%= item.productimage %></td>
+				<td><img src="/images/<%= item.productimage %>" width=75 height=75</td>
 				<td><%= item.description %></td>
-				<td><%= Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.saleprice) %>
+				<td align='right'><%= Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.saleprice) %>
 				</td>
-				<td><%= qtys[index] %> </td>
+				<td align='right'><%= qtys[index] %> </td>
 				<% totqty = totqty + parseInt(qtys[index]) %>
 				<% lineitemcost = item.saleprice * parseInt(qtys[index]) %>
-				<td><%= Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(lineitemcost) %> </td>
+				<td align='right'><%= Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(lineitemcost) %> </td>
 				<% totprice = totprice + lineitemcost  %>
 				<td>
 					<form action="/catalog/remove" method="post" >
@@ -34,8 +34,8 @@
         		<% }); %>
 		<tr bgcolor="yellow" >
 			<td colspan="4" align="right"><b>Totals</b></td>
-			<td><%= totqty %></td>
-			<td><%= Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totprice) %></td>
+			<td align='right'><%= totqty %></td>
+			<td align='right'><%= Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totprice) %></td>
 			<td><button class='button1' onclick="window.location.href='/catalog/checkout'">Checkout</button></td>
 		</tr>
 	</table>

@@ -1,0 +1,19 @@
+<% if (allrecs.length > 0) {%>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>City</th>
+            <th>State</th>
+        </tr>
+
+        <% allrecs.forEach((recref, index) => { %>
+        <tr>
+            <td><%= recref.firstname%></td>
+            <td><%= recref.lastname%></td>
+            <td><%= recref.city %></td>
+            <td><%= recref.state %></td>
+        </tr>
+        <% }); %>
+    </table>
+<% } %>

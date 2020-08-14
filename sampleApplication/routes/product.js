@@ -1,12 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
+function adminonly(req, res, next){ 
+	if (!req.session.isadmin)
+	{		
+		return res.redirect('customer/login');
+	}
+    next();
+}
+
 // ==================================================
 // Route to list all records. Display view to list all records
 // URL: http://localhost:3000/product
 // ==================================================
 
-router.get('/', function(req, res, next) {
+router.get('/', adminonly, function(req, res, next) {
 	
 	let query = "SELECT product_id, productname, productimage, saleprice, status, homepage FROM product ";
 	
@@ -47,7 +55,7 @@ router.get('/:recordid/show', function(req, res, next) {
 // Route to show empty form to obtain input form enduser.
 // URL: http://localhost:3000/product/addrecord
 // ==================================================
-router.get('/addrecord', function(req, res, next) {
+router.get('/addrecord', adminonly, function(req, res, next) {
 	res.render('product/addrec');
 });
 
@@ -57,7 +65,7 @@ router.get('/addrecord', function(req, res, next) {
 // Route to obtain user input and save in database.
 // URL: http://localhost:3000/product/
 // ==================================================
-router.post('/', function(req, res, next) {
+router.post('/', adminonly, function(req, res, next) {
 
     let insertquery = "INSERT INTO product(productname, productimage, description, category_id, supplier_id, subcategory_1, subcategory_2, saleprice, status, homepage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -84,7 +92,7 @@ router.post('/', function(req, res, next) {
 // Route to edit one specific record.
 // URL: http://localhost:3000/product/1/edit
 // ==================================================
-router.get('/:recordid/edit', function(req, res, next) {
+router.get('/:recordid/edit', adminonly, function(req, res, next) {
 
 	let query = "SELECT product_id , product_id, productname, productimage, description, category_id, supplier_id, subcategory_1, subcategory_2, saleprice, status, homepage FROM product WHERE product_id = " + req.params.recordid;
 
@@ -103,7 +111,7 @@ router.get('/:recordid/edit', function(req, res, next) {
 // Route to save edited data in database.
 // URL: http://localhost:3000/product/save
 // ==================================================
-router.post('/save', function(req, res, next) {
+router.post('/save', adminonly, function(req, res, next) {
     let updatequery = "UPDATE product SET productname= ?, productimage= ?, description = ?, category_id = ?, supplier_id = ?, subcategory_1 = ?, subcategory_2 = ?, saleprice = ?, status = ?, homepage = ? WHERE product_id = " + req.body.product_id; 
 
     var homepagechecked = false;
@@ -128,7 +136,7 @@ router.post('/save', function(req, res, next) {
 // Route to delete one specific record.
 // URL: http://localhost:3000/product/1/delete
 // ==================================================
-router.get('/:recordid/delete', function(req, res, next) {
+router.get('/:recordid/delete', adminonly, function(req, res, next) {
     let query = "DELETE FROM product WHERE product_id = " + req.params.recordid; 
     // execute query
 

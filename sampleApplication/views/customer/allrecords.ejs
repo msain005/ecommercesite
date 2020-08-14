@@ -6,6 +6,7 @@
             <th>Last Name</th>
             <th>City</th>
             <th>State</th>
+			<th>Admin Access</th>
         </tr>
 
         <% allrecs.forEach((recref, index) => { %>
@@ -15,6 +16,7 @@
             <td><%= recref.lastname%></td>
             <td><%= recref.city %></td>
             <td><%= recref.state %></td>
+			<td><%= recref.isadmin %></td>
             <td><a href='/customer/<%= recref.customer_id%>/show'> Details</a></td>
             <td><a href='/customer/<%= recref.customer_id%>/edit'>Edit</a></td>
             <td><a href='/customer/<%= recref.customer_id%>/delete' 

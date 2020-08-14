@@ -2,6 +2,14 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
 
+function adminonly(req, res, next){ 
+	if (!req.session.isadmin)
+	{		
+		return res.redirect('customer/login');
+	}
+    next();
+}
+
 
 // ==================================================
 // Route Enable Registration
@@ -22,21 +30,11 @@ router.get('/login', function(req, res, next) {
 
 
 // ==================================================
-// Route to logout
-// ==================================================
-router.get('/logout', function(req, res, next) {
-	req.session.customer_id = 0;
-	req.session.custname = "";
-	res.redirect('/');
-});
-
-
-// ==================================================
 // Route Check Login Credentials
 // ==================================================
 router.post('/login', function(req, res, next) {
 	
-  let query = "select customer_id, firstname, lastname, password from customer WHERE username = '" + req.body.username + "'"; 
+  let query = "select customer_id, firstname, lastname, password, isadmin from customer WHERE username = '" + req.body.username + "'"; 
   // execute query
   db.query(query, (err, result) => {
 		if (err) {res.render('error');} 
@@ -51,6 +49,16 @@ router.post('/login', function(req, res, next) {
 						req.session.customer_id = custid;				// assign customer id to session variable
 						var custname = result[0].firstname + " "+ result[0].lastname;	// customer first and last name
 						req.session.custname = custname;				// for welcome message used in header.ejs
+						
+						if(result[0].isadmin) 
+						{
+							req.session.isadmin = true
+						}
+						else
+						{
+							req.session.isadmin = false;
+						}
+							
 						res.redirect('/');
 					} else {
 						// password do not match
@@ -63,15 +71,24 @@ router.post('/login', function(req, res, next) {
  	});
 });
 
+// ==================================================
+// Route to logout
+// ==================================================
+router.get('/logout', function(req, res, next) {
+	req.session.customer_id = 0;
+	req.session.custname = "";
+	req.session.isadmin = 0;
+	res.redirect('/');
+});
 
 // ==================================================
 // Route to list all records. Display view to list all records
 // URL: http://localhost:3000/customer
 // ==================================================
 
-router.get('/', function(req, res, next) {
+router.get('/', adminonly, function(req, res, next) {
 	
-	let query = "SELECT customer_id , firstname , lastname , city, state FROM customer ";
+	let query = "SELECT customer_id , firstname , lastname , city, state, isadmin FROM customer ";
 	
 	// execute query
 	db.query(query, (err, result) => {
@@ -88,8 +105,8 @@ router.get('/', function(req, res, next) {
 // Route to view one specific record. Notice the view is one record
 // URL: http://localhost:3000/customer/1/show
 // ==================================================
-router.get('/:recordid/show', function(req, res, next) {
-    let query = "SELECT customer_id, firstname, lastname, email, phone, address1, address2, city, state, zip, addlnotes, username, password FROM customer WHERE customer_id= " + req.params.recordid; 
+router.get('/:recordid/show', adminonly, function(req, res, next) {
+    let query = "SELECT customer_id, firstname, lastname, email, phone, address1, address2, city, state, zip, addlnotes, username, password, isadmin FROM customer WHERE customer_id= " + req.params.recordid; 
 
     // execute query
     db.query(query, (err, result) => {
@@ -110,7 +127,7 @@ router.get('/:recordid/show', function(req, res, next) {
 // Route to show empty form to obtain input form enduser.
 // URL: http://localhost:3000/customer/addrecord
 // ==================================================
-router.get('/addrecord', function(req, res, next) {
+router.get('/addrecord', adminonly, function(req, res, next) {
 	res.render('customer/addrec');
 });
 
@@ -121,12 +138,19 @@ router.get('/addrecord', function(req, res, next) {
 // ==================================================
 
 router.post('/', function(req, res, next) {
-	let insertquery = "INSERT INTO customer (firstname, lastname, email, phone, address1, address2, city, state, zip, addlnotes, username, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+	let insertquery = "INSERT INTO customer (firstname, lastname, email, phone, address1, address2, city, state, zip, addlnotes, username, password, isadmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+
+    var isadminchecked = false;
+		if (req.body.isadmin) {
+			isadminchecked = true;
+		} else {
+			isadminchecked = false;
+		}
 
 	bcrypt.genSalt(10, (err, salt) => {
 		bcrypt.hash(req.body.password, salt, (err, hash) => {
 			if(err) { res.render('error');}
-				db.query(insertquery,[req.body.firstname, req.body.lastname, req.body.email, req.body.phone, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zip, req.body.addlnotes, req.body.username, hash],(err, result) => {
+				db.query(insertquery,[req.body.firstname, req.body.lastname, req.body.email, req.body.phone, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zip, req.body.addlnotes, req.body.username, hash, isadminchecked],(err, result) => {
 					if (err) {console.log(err);res.render('error');} 
 					else {res.redirect('/');}
 				});
@@ -139,9 +163,9 @@ router.post('/', function(req, res, next) {
 // Route to edit one specific record.
 // URL: http://localhost:3000/customer/1/edit
 // ==================================================
-router.get('/:recordid/edit', function(req, res, next) {
+router.get('/:recordid/edit', adminonly, function(req, res, next) {
 
-	let query = "SELECT customer_id , firstname , lastname , email, phone, address1, address2, city, state, zip, addlnotes , username, password FROM customer WHERE customer_id = " + req.params.recordid;
+	let query = "SELECT customer_id , firstname , lastname , email, phone, address1, address2, city, state, zip, addlnotes , username, password, isadmin FROM customer WHERE customer_id = " + req.params.recordid;
 
 	// execute query
 	db.query(query, (err, result) => {
@@ -158,10 +182,17 @@ router.get('/:recordid/edit', function(req, res, next) {
 // Route to save edited data in database.
 // URL: http://localhost:3000/customer/save
 // ==================================================
-router.post('/save', function(req, res, next) {
-    let updatequery = "UPDATE customer SET firstname= ?, lastname= ?, email = ?, phone = ?, address1 = ?, address2 = ?, city = ?, state = ?, zip = ?, addlnotes= ?, username = ?, password = ? WHERE customer_id = " + req.body.customer_id; 
+router.post('/save', adminonly, function(req, res, next) {
+    let updatequery = "UPDATE customer SET firstname= ?, lastname= ?, email = ?, phone = ?, address1 = ?, address2 = ?, city = ?, state = ?, zip = ?, addlnotes= ?, username = ?, password = ?, isadmin = ? WHERE customer_id = " + req.body.customer_id; 
 
-    db.query(updatequery,[req.body.firstname, req.body.lastname, req.body.email, req.body.phone, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zip, req.body.addlnotes, req.body.username, req.body.password],(err, result) => {
+    var isadminchecked = false;
+		if (req.body.isadmin) {
+			isadminchecked = true;
+		} else {
+			isadminchecked = false;
+		}
+
+    db.query(updatequery,[req.body.firstname, req.body.lastname, req.body.email, req.body.phone, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zip, req.body.addlnotes, req.body.username, req.body.password, isadminchecked],(err, result) => {
         if (err) {
             console.log(err);
             res.render('error');
@@ -176,7 +207,7 @@ router.post('/save', function(req, res, next) {
 // Route to delete one specific record.
 // URL: http://localhost:3000/customer/1/delete
 // ==================================================
-router.get('/:recordid/delete', function(req, res, next) {
+router.get('/:recordid/delete', adminonly, function(req, res, next) {
     let query = "DELETE FROM customer WHERE customer_id = " + req.params.recordid; 
     // execute query
 

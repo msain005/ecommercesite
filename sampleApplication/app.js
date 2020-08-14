@@ -42,6 +42,9 @@ var orderdetailRouter = require('./routes/orderdetail');
 var reviewRouter = require('./routes/review');
 var subscriptionRouter = require('./routes/subscription');
 var catalogRouter = require('./routes/catalog');
+var reportRouter = require('./routes/report');
+var privacyRouter = require('./routes/privacy');
+var helpRouter = require('./routes/help');
 
 var app = express();
 app.use(layouts);
@@ -77,6 +80,9 @@ app.use('/orderdetail', orderdetailRouter);
 app.use('/review', reviewRouter);
 app.use('/subscription', subscriptionRouter);
 app.use('/catalog', catalogRouter);
+app.use('/report', reportRouter);
+app.use('/privacy', privacyRouter);
+app.use('/help', helpRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

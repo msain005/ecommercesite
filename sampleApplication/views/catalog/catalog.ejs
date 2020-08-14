@@ -5,11 +5,11 @@
 			<input type="hidden" name="product_id" value=<%= recref.product_id %> > 
 			<table> 
 				<tr>
-					<td><b><%= recref.productname %></b></td>
+					<td><b><a href='/product/<%= recref.product_id %>/show'><%= recref.productname %></a></b></td>
 					<td><%= recref.saleprice %></td>
 				</tr>
 				<tr>
-					<td align="center"><img src="/images/<%= recref.productimage %>" height=100 width=100></td>
+					<td align="center"><a href='/product/<%= recref.product_id %>/show'><img src="/images/<%= recref.productimage %>" height=100 width=100></a></td>
 				</tr>
 				<tr>
 					<td><%= recref.description %></td>
